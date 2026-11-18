@@ -1,44 +1,46 @@
+import {useEffect, useState} from 'react';
 import MediaRow from '../components/MediaRow';
+import {fetchData} from '../utils/fetchData';
 
-// Kovakoodattu esimerkkidata mediatiedostoista
-const mediaArray = [
-  {
-    media_id: 8,
-    user_id: 5,
-    filename: 'https://placehold.co/800?text=Pic1&font=roboto.jpg',
-    thumbnail: 'https://placehold.co/200?text=Thumb1&font=roboto.jpg',
-    filesize: 170469,
-    media_type: 'image/jpeg',
-    title: 'Picture 1',
-    description: 'This is a placeholder picture.',
-    created_at: '2024-01-07T20:49:34.000Z',
-  },
-  {
-    media_id: 9,
-    user_id: 7,
-    filename: 'https://placehold.co/800?text=Pic2&font=oswald.png',
-    thumbnail: 'https://placehold.co/200?text=Thumb2&font=oswald.png',
-    filesize: 1002912,
-    media_type: 'image/png',
-    title: 'Pic 2',
-    description: '',
-    created_at: '2024-01-07T21:32:27.000Z',
-  },
-  {
-    media_id: 17,
-    user_id: 2,
-    filename: 'https://placeholdervideo.dev/1920x1080',
-    thumbnail: 'https://placehold.co/200?text=Video&font=oswald.png',
-    filesize: 1236616,
-    media_type: 'video/mp4',
-    title: 'Video 1',
-    description: 'Placeholder video.',
-    created_at: '2024-01-07T20:48:13.000Z',
-  },
-];
-
-// Etusivun näkymä (Home view), joka listaa mediatiedostot taulukossa
+// Etusivun näkymä, joka hakee mediatiedostot ja niiden omistajat rajapinnasta
 const Home = () => {
+  // Tila (state) mediatiedostojen listalle, aluksi tyhjä taulukko []
+  const [mediaArray, setMediaArray] = useState([]);
+
+  // useEffect suoritetaan vain kerran komponentin ensirenderöinnin jälkeen (koska riippuvuustaulukko on tyhjä [])
+  useEffect(() => {
+    const getMedia = async () => {
+      try {
+        // 1. Vaihe (Lab 1): haku paikallisesta tiedostosta olisi:
+        // const mediaData = await fetchData('test.json');
+
+        // 2. Vaihe (Lab 2): haetaan mediatiedostot Media API -rajapinnasta
+        const mediaData = await fetchData(
+          import.meta.env.VITE_MEDIA_API + '/media',
+        );
+
+        // Haetaan jokaiselle mediatiedostolle sen julkaisijan käyttäjänimi Auth API -rajapinnasta
+        // Promise.all odottaa, että kaikki rinnakkaiset käyttäjähaut valmistuvat
+        const mediaWithUsers = await Promise.all(
+          mediaData.map(async (item) => {
+            const userData = await fetchData(
+              import.meta.env.VITE_AUTH_API + '/users/' + item.user_id,
+            );
+            // Yhdistetään alkuperäisen media-alkion tiedot ja haettu username uuteen objektiin
+            return {...item, username: userData.username};
+          }),
+        );
+
+        // Päivitetään tila, mikä saa Reactin piirtämään taulukon uudelleen haetulla datalla
+        setMediaArray(mediaWithUsers);
+      } catch (error) {
+        console.error('Error fetching media:', error);
+      }
+    };
+
+    getMedia();
+  }, []);
+
   return (
     <>
       <h2>My Media</h2>
@@ -48,6 +50,7 @@ const Home = () => {
             <th>Thumbnail</th>
             <th>Title</th>
             <th>Description</th>
+            <th>Owner</th>
             <th>Created</th>
             <th>Size</th>
             <th>Type</th>
