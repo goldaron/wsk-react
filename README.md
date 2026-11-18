@@ -1,6 +1,6 @@
 # React + Vite
 
-Open [WSK Hooks App](https://users.metropolia.fi/~santeel/hooks/) to view it in the browser.
+Open [WSK React App](https://users.metropolia.fi/~santeel/react-app/) to view it in the browser.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
