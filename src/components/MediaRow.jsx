@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
+import {Link} from 'react-router';
 
 // Yksittäisen taulukkorivin renderöivä komponentti
 const MediaRow = (props) => {
-  // Puretaan (destructure) Home-komponentilta saadut propsit
-  const {item, setSelectedItem} = props;
+  const {item} = props;
 
   return (
     <tr>
@@ -17,23 +17,18 @@ const MediaRow = (props) => {
       <td>{item.filesize}</td>
       <td>{item.media_type}</td>
       <td>
-        {/* Kun nappia painetaan, asetetaan tämä rivi (item) Home-komponentin selectedItem-tilaan */}
-        <button
-          onClick={() => {
-            setSelectedItem(item);
-          }}
-        >
-          View
-        </button>
+        {/* React Routerin Link-komponentti ohjaa /single-reitille ilman sivun uudelleenlatausta.
+            Valittu mediaobjekti (item) välitetään reitille state-ominaisuuden avulla. */}
+        <Link to="/single" state={item}>
+          Show
+        </Link>
       </td>
     </tr>
   );
 };
 
-// Varmistetaan PropTypesin avulla, että komponentti saa oikeanlaiset ja pakolliset propsit
 MediaRow.propTypes = {
   item: PropTypes.object.isRequired,
-  setSelectedItem: PropTypes.func.isRequired,
 };
 
 export default MediaRow;

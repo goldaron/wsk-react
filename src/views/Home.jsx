@@ -1,6 +1,4 @@
-import {useState} from 'react';
-import MediaRow from './MediaRow';
-import SingleView from './SingleView';
+import MediaRow from '../components/MediaRow';
 
 // Kovakoodattu esimerkkidata mediatiedostoista
 const mediaArray = [
@@ -39,11 +37,8 @@ const mediaArray = [
   },
 ];
 
+// Etusivun näkymä (Home view), joka listaa mediatiedostot taulukossa
 const Home = () => {
-  // Tila (state) valitulle media-alkiolle.
-  // Aluksi null (mitään ei ole valittu). Kun käyttäjä klikkaa riviä, tähän tallennetaan kyseinen item-objekti.
-  const [selectedItem, setSelectedItem] = useState(null);
-
   return (
     <>
       <h2>My Media</h2>
@@ -60,21 +55,12 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {/* Käydään mediaArray läpi map()-funktiolla ja luodaan jokaisesta alkiosta MediaRow-komponentti.
-              Välitetään propsina yksittäinen item sekä setSelectedItem-funktio tilan päivittämistä varten. */}
+          {/* Käydään mediaArray läpi map()-funktiolla ja luodaan jokaisesta alkiosta MediaRow-komponentti */}
           {mediaArray.map((item) => (
-            <MediaRow
-              key={item.media_id}
-              item={item}
-              setSelectedItem={setSelectedItem}
-            />
+            <MediaRow key={item.media_id} item={item} />
           ))}
         </tbody>
       </table>
-
-      {/* Modaalinäkymä yksittäiselle medialle.
-          Saa propsina valitun median (selectedItem) ja funktion sen sulkemiseen (setSelectedItem). */}
-      <SingleView item={selectedItem} setSelectedItem={setSelectedItem} />
     </>
   );
 };

@@ -14,6 +14,25 @@ body {
   margin: 0 auto;
 }
 
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 1rem 0 2rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.75rem;
+}
+
+nav a {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -38,25 +57,10 @@ button {
   cursor: pointer;
 }
 
-dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
-  padding: 1.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow: auto;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-}
-
-dialog img,
-dialog video {
+article img,
+article video {
   display: block;
   max-width: 100%;
-  max-height: 65vh;
+  max-height: 70vh;
   margin: 1rem 0;
 }
