@@ -32,3 +32,31 @@ td img {
   max-width: 120px;
   height: auto;
 }
+
+button {
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+dialog img,
+dialog video {
+  display: block;
+  max-width: 100%;
+  max-height: 65vh;
+  margin: 1rem 0;
+}

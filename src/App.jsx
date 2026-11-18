@@ -1,6 +1,7 @@
 import './App.css';
 import Home from './components/Home';
 
+// Sovelluksen juurikomponentti (root component), joka renderöi pääotsikon ja Home-näkymän
 const App = () => {
   return (
     <>
